@@ -1,33 +1,6 @@
 # advent-of-code-2021
 
-FIXME: description
-
-## Installation
-
-Download from http://example.com/FIXME.
-
-## Usage
-
-FIXME: explanation
-
-    $ java -jar advent-of-code-2021-0.1.0-standalone.jar [args]
-
-## Options
-
-FIXME: listing of options this app accepts.
-
-## Examples
-
-...
-
-### Bugs
-
-...
-
-### Any Other Sections
-### That You Think
-### Might be Useful
-
+A Clojure solution in Advent of Code (2021) puzzles
 ## License
 
 Copyright © 2021 FIXME
