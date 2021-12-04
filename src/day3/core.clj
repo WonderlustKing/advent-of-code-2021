@@ -17,22 +17,23 @@
             6 [], 7 [], 8 [], 9 [], 10 [], 11 []}
            input)))
 
-(defn- sorted-frequent [grouped-bits]
-  (map #(vec [(first %)
-              (sort-by val (frequencies (second %)))])
-       grouped-bits))
+(defn- sorted-frequent [grouped-bits most-frequent?]
+  (let [sort-by-val-fn (if most-frequent? > <)]
+    (map #(vec [(first %)
+                (sort-by val sort-by-val-fn (frequencies (second %)))])
+         grouped-bits)))
 
-(defn- gamma-rate-number [grouped-bits]
-  (-> (apply str (map (fn [[_ [_ value]]]
-                        (first value))
-                      (sorted-frequent grouped-bits)))
-      (Integer/parseInt 2)))
-
-(defn- epsilon-rate-number [grouped-bits]
+(defn- rate-number [grouped-bits most-frequent?]
   (-> (apply str (map (fn [[_ [value]]]
                         (first value))
-                      (sorted-frequent grouped-bits)))
+                      (sorted-frequent grouped-bits most-frequent?)))
       (Integer/parseInt 2)))
+
+(defn- gamma-rate-number [grouped-bits]
+  (rate-number grouped-bits true))
+
+(defn- epsilon-rate-number [grouped-bits]
+  (rate-number grouped-bits false))
 
 (defn part1 []
   (let [grouped-bits (group-bits-numbers input)
@@ -45,8 +46,8 @@
 ;;
 
 (defn- first-position-most-frequent-bit [grouped-bits]
-  (let [[_ [_ [most-frequent-bit]]] (first (sorted-frequent grouped-bits))]
-    most-frequent-bit))
+  (let [[_ [most-frequent-bit]] (first (sorted-frequent grouped-bits true))]
+    (first most-frequent-bit)))
 
 (defn- life-support-rating [input indx most-frequent?]
   (if (= 1 (count input))
