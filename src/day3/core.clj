@@ -57,7 +57,7 @@
           bit-operator (if most-frequent? > <)
           frequent-bit (if (= (get frequent-bits-map \0) (get frequent-bits-map \1))
                               (if most-frequent? \1 \0)
-                              (-> (sort-by val bit-operator frequent-bits-map) first first))
+                              (-> (sort-by val bit-operator frequent-bits-map) ffirst))
           new-input (filter #(= frequent-bit (nth % indx)) input)]    
       (recur new-input (inc indx) most-frequent?))))
 
