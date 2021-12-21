@@ -29,19 +29,21 @@
       first
       (= char2)))
 
-(defn error-fn [line result]
+(defn corrupted-line-first-error-char
+  [line result]
   (when (empty? line) nil)
   (let [char-to-check (first line)
         list-to-check (rest line)]
     (cond
-      (right-closing-char? (last result) char-to-check) (error-fn list-to-check
-                                                                  (vec (butlast result)))
-      (opening-char? char-to-check) (error-fn list-to-check (conj result char-to-check))
+      (right-closing-char? (last result) char-to-check) (corrupted-line-first-error-char list-to-check
+                                                                                         (vec (butlast result)))
+      (opening-char? char-to-check) (corrupted-line-first-error-char list-to-check (conj result char-to-check))
       :else char-to-check)))
 
 (defn part1 [input]
-  (->> (map #(error-fn % []) input)
+  (->> (map #(corrupted-line-first-error-char % []) input)
        (map #(get point %))
+       (remove nil?)
        (reduce +)))
 
 
