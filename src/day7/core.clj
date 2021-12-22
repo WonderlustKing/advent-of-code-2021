@@ -14,27 +14,24 @@
 ;; PART 1
 ;;
 (defn part1 []
-  (let [sorted+grouped-crabs-positions (sort (frequencies input->numbers))
-        crabs-positions (map first sorted+grouped-crabs-positions)]
+  (let [sorted+grouped-crabs-positions (sort (frequencies input->numbers))]
     (->> (map (fn [i]
                 (reduce + (map (fn [[num multi]]
                                  (* (Math/abs (- i num)) multi))
                                sorted+grouped-crabs-positions)))
-              crabs-positions)
+              (range (ffirst sorted+grouped-crabs-positions) (first (last sorted+grouped-crabs-positions))))
          (apply min))))
 
 ;;
 ;; PART 2
-;; cannot understand why it doesn't produce the right result
 ;;
 
 (defn part2 []
-  (let [sorted+grouped-crabs-positions (sort (frequencies input->numbers))
-        crabs-positions (map first sorted+grouped-crabs-positions)]
+  (let [sorted+grouped-crabs-positions (sort (frequencies input->numbers))]
     (->> (map (fn [i]
                 (reduce + (map (fn [[num multi]]
-                                 (let [diff (Math/abs (- i num))]
-                                   (* (reduce + (range (inc diff))) multi)))
-                               sorted+grouped-crabs-positions)))
-              crabs-positions)
+                                   (let [diff (Math/abs (- i num))]
+                                     (* (reduce + (range (inc diff))) multi)))
+                                 sorted+grouped-crabs-positions)))
+              (range (ffirst sorted+grouped-crabs-positions) (first (last sorted+grouped-crabs-positions))))
          (apply min))))
